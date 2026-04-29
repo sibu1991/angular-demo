@@ -1,0 +1,42 @@
+name: Angular CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - github-action-demo1
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    name: Build Angular App
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout source code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Build Angular app
+      - name: Build Angular
+        run: npm run build -- --configuration=production
+
+      # 5. (Optional) Run unit tests
+      # Uncomment if tests are configured
+      # - name: Run tests
+      #   run: npm run test -- --watch=false --browsers=ChromeHeadless
